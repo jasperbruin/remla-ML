@@ -54,4 +54,40 @@ Project Organization
 
 --------
 
+## Using Poetry for Dependency Management
+
+This project uses [Poetry](https://python-poetry.org/) to manage its Python dependencies.
+
+### Installation
+
+1. **Install Poetry**: First, make sure you have Poetry installed on your system. You can install it via pip:
+
+    ```bash
+    pip install poetry
+    ```
+
+    For alternative installation methods, refer to the [official Poetry documentation](https://python-poetry.org/docs/#installation).
+
+2. **Navigate to the Project Directory**: Change your current directory to the root directory of the cloned repository:
+
+    ```bash
+    cd your-path/remla-ML-group3
+    ```
+
+3. **Install Dependencies**: Use Poetry to install the project dependencies:
+
+    ```bash
+    poetry install
+    ```
+
+    This command will create a virtual environment and install all the required dependencies listed in the `pyproject.toml` file.
+
+### Using the Poetry Shell
+
+Poetry provides a virtual environment shell where you can execute commands within the context of your project's dependencies. To activate the Poetry shell, run:
+
+```bash
+poetry shell
+```
+
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
