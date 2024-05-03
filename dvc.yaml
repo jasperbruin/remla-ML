@@ -1,0 +1,31 @@
+stages:
+
+  tokenize:
+    cmd: python src/data/tokenize_dataset.py
+    deps:
+    - src/data/tokenize_dataset.py
+    outs:
+    - tokenized
+
+  train_model:
+    cmd: python src/models/train_model.py
+    deps:
+    - src/models/train_model.py
+    outs:
+    - trained
+    params:
+    - epochs
+    - batch_size
+    - categories
+    - loss_function
+    - optimizer
+
+  predict_model:
+    cmd: python src/models/predict_model.py
+    deps:
+    - src/models/predict_model.py
+    outs:
+    - predicted
+
+metrics:
+  - predicted/metrics.json
