@@ -1,0 +1,50 @@
+schema: '2.0'
+stages:
+  tokenize:
+    cmd: python src/data/tokenize_dataset.py
+    deps:
+    - path: src/data/tokenize_dataset.py
+      hash: md5
+      md5: 4ae60d4293641e484ddf4dfc1dee9d36
+      size: 2154
+    outs:
+    - path: tokenized
+      hash: md5
+      md5: 7c11debd3663ff812e400b70b9ade2dd.dir
+      size: 1004730838
+      nfiles: 7
+  train_model:
+    cmd: python src/models/train_model.py
+    deps:
+    - path: src/models/train_model.py
+      hash: md5
+      md5: 968e5202bc068c61227e2cfcc7f283a8
+      size: 2459
+    params:
+      params.yaml:
+        batch_size: 64
+        categories:
+        - fishing
+        - legitimate
+        epochs: 2
+        loss_function: binary_crossentropy
+        optimizer: adam
+    outs:
+    - path: trained
+      hash: md5
+      md5: bad235ee5f59c4dc64ae7d8fdd5724b2.dir
+      size: 5472435
+      nfiles: 1
+  predict_model:
+    cmd: python src/models/predict_model.py
+    deps:
+    - path: src/models/predict_model.py
+      hash: md5
+      md5: d44f336e6009aefb671305b32f78f744
+      size: 1532
+    outs:
+    - path: predicted
+      hash: md5
+      md5: e9db230a576961ed124193ba9b67efc9.dir
+      size: 38
+      nfiles: 1
