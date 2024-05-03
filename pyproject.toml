@@ -7,15 +7,16 @@ readme = "README.md"
 package-mode = false
 
 [tool.poetry.dependencies]
-python = ">=3.9,<3.12"
-scikit-learn = "^1.1.0"
-tensorflow = "^2.7.0"
-tensorflow-io-gcs-filesystem = "0.31.0"
-matplotlib = "^3.4.3"
-keras = "^2.6.0"
+python = ">=3.9,<3.13"
+scikit-learn = "^1.4.2"
+tensorflow = {version = ">2.16", extras = ["and-cuda"]}
+matplotlib = "^3.8.4"
+keras = "^3.3.3"
 jupyter = "^1.0.0"
 pandas = "^2.2.2"
 pylint = "3.1.0"
+dvc = "^3.50.1"
+dvc-gdrive = "^3.0.1"
 
 
 [build-system]
