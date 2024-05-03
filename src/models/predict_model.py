@@ -7,16 +7,18 @@ import numpy as np
 from sklearn.metrics import classification_report, confusion_matrix,accuracy_score
 
 
-OUPUT_DIR = "/workspaces/remla-ML-group3/predicted/"
+OUPUT_DIR = "predicted/"
 
 if __name__ == "__main__":
+    # Use DVC to pull the model and test data from the remote before processing
+    os.system("dvc pull")
 
-    model = keras.models.load_model("/workspaces/remla-ML-group3/trained/model.keras")
+    model = keras.models.load_model("trained/model.keras")
 
-    with open("/workspaces/remla-ML-group3/tokenized/x_test.pickle", "rb") as f:
+    with open("tokenized/x_test.pickle", "rb") as f:
         x_test = pickle.load(f)
 
-    with open("/workspaces/remla-ML-group3/tokenized/y_test.pickle", "rb") as f:
+    with open("tokenized/y_test.pickle", "rb") as f:
         y_test = pickle.load(f)
 
 

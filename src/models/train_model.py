@@ -3,11 +3,12 @@ import os
 import dvc.api
 
 from keras.models import Sequential
-from keras.layers import Embedding, Conv1D, MaxPooling1D, Flatten, Dense, Dropout
+from keras.layers import Embedding, Conv1D, MaxPooling1D, Flatten, Dense, \
+    Dropout
 
+INPUT_DIR = "tokenized/"
+OUTPUT_DIR = "trained/"
 
-INPUT_DIR = "/workspaces/remla-ML-group3/tokenized/"
-OUPUT_DIR = "/workspaces/remla-ML-group3/trained/"
 
 def create_model(params):
     """ Create the model to be used for training
@@ -54,35 +55,39 @@ def create_model(params):
 
     model.add(Flatten())
 
-    model.add(Dense(len(params['categories'])-1, activation='sigmoid'))
+    model.add(Dense(len(params['categories']) - 1, activation='sigmoid'))
 
     return model
 
 
 def load_pickle(path):
-    """ Load the pickle file from the given path """    
+    """ Load the pickle file from the given path """
     with open(path, "rb") as f:
         obj = pickle.load(f)
     return obj
 
 
 if __name__ == "__main__":
+    # Use DVC to pull the data from the remote before processing
+    os.system("dvc pull")
+
     params = dvc.api.params_show()
-    
+
     x_train = load_pickle(INPUT_DIR + "x_train.pickle")
     y_train = load_pickle(INPUT_DIR + "y_train.pickle")
     x_val = load_pickle(INPUT_DIR + "x_val.pickle")
     y_val = load_pickle(INPUT_DIR + "y_val.pickle")
 
-    if not os.path.exists(OUPUT_DIR):
-        os.makedirs(OUPUT_DIR)
+    if not os.path.exists(OUTPUT_DIR):
+        os.makedirs(OUTPUT_DIR)
 
     model = create_model(params)
-    model.compile(loss=params['loss_function'], optimizer=params['optimizer'], metrics=['accuracy'])
+    model.compile(loss=params['loss_function'], optimizer=params['optimizer'],
+                  metrics=['accuracy'])
     model.fit(x_train, y_train,
-        batch_size=params['batch_size'],
-        epochs=params['epochs'],
-        shuffle=True,
-        validation_data=(x_val, y_val)
-        )
-    model.save(OUPUT_DIR + "model.keras")
+              batch_size=params['batch_size'],
+              epochs=params['epochs'],
+              shuffle=True,
+              validation_data=(x_val, y_val)
+              )
+    model.save(OUTPUT_DIR + "model.keras")

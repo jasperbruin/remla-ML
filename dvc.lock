@@ -5,8 +5,8 @@ stages:
     deps:
     - path: src/data/tokenize_dataset.py
       hash: md5
-      md5: d55b2d14847151b87f4944cc54d1e12a
-      size: 2098
+      md5: 934ea5022ba7efea0f5752dbc2c0f6bc
+      size: 2525
     outs:
     - path: tokenized
       hash: md5
