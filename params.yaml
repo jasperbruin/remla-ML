@@ -1,0 +1,5 @@
+epochs: 2
+batch_size: 64
+loss_function: binary_crossentropy
+optimizer: adam
+categories: [fishing, legitimate]
