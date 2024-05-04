@@ -3,3 +3,9 @@ batch_size: 64
 loss_function: binary_crossentropy
 optimizer: adam
 categories: [fishing, legitimate]
+data_folder_id: 1IufuHUEvaFgWJzmHJEogi4NEUIeV1BpJ
+
+data_folder: data/external/
+tokenized_folder: artifacts/tokenized/
+trained_folder: artifacts/trained/
+predicted_folder: artifacts/predicted/

@@ -5,11 +5,9 @@ import dvc.api
 from keras.models import Sequential
 from keras.layers import Embedding, Conv1D, MaxPooling1D, Flatten, Dense, Dropout
 
+PARAMS = dvc.api.params_show()
 
-INPUT_DIR = "/workspaces/remla-ML-group3/tokenized/"
-OUPUT_DIR = "/workspaces/remla-ML-group3/trained/"
-
-def create_model(params):
+def create_model():
     """ Create the model to be used for training
 
     Args:
@@ -19,7 +17,7 @@ def create_model(params):
         Sequential: model to be used for training
     """
 
-    with open(INPUT_DIR + "char_index.pickle", "rb") as f:
+    with open(PARAMS["tokenized_folder"] + "char_index.pickle", "rb") as f:
         char_index = pickle.load(f)
 
     model = Sequential()
@@ -54,7 +52,7 @@ def create_model(params):
 
     model.add(Flatten())
 
-    model.add(Dense(len(params['categories'])-1, activation='sigmoid'))
+    model.add(Dense(len(PARAMS['categories'])-1, activation='sigmoid'))
 
     return model
 
@@ -67,22 +65,20 @@ def load_pickle(path):
 
 
 if __name__ == "__main__":
-    params = dvc.api.params_show()
-    
-    x_train = load_pickle(INPUT_DIR + "x_train.pickle")
-    y_train = load_pickle(INPUT_DIR + "y_train.pickle")
-    x_val = load_pickle(INPUT_DIR + "x_val.pickle")
-    y_val = load_pickle(INPUT_DIR + "y_val.pickle")
+    x_train = load_pickle(PARAMS["tokenized_folder"] + "x_train.pickle")
+    y_train = load_pickle(PARAMS["tokenized_folder"] + "y_train.pickle")
+    x_val = load_pickle(PARAMS["tokenized_folder"] + "x_val.pickle")
+    y_val = load_pickle(PARAMS["tokenized_folder"] + "y_val.pickle")
 
-    if not os.path.exists(OUPUT_DIR):
-        os.makedirs(OUPUT_DIR)
+    if not os.path.exists(PARAMS["trained_folder"]):
+        os.makedirs(PARAMS["trained_folder"])
 
-    model = create_model(params)
-    model.compile(loss=params['loss_function'], optimizer=params['optimizer'], metrics=['accuracy'])
+    model = create_model()
+    model.compile(loss=PARAMS['loss_function'], optimizer=PARAMS['optimizer'], metrics=['accuracy'])
     model.fit(x_train, y_train,
-        batch_size=params['batch_size'],
-        epochs=params['epochs'],
+        batch_size=PARAMS['batch_size'],
+        epochs=PARAMS['epochs'],
         shuffle=True,
         validation_data=(x_val, y_val)
         )
-    model.save(OUPUT_DIR + "model.keras")
+    model.save(PARAMS["trained_folder"] + "model.keras")
