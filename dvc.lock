@@ -1,0 +1,15 @@
+schema: '2.0'
+stages:
+  tokenize:
+    cmd: python src/data/tokenize_dataset.py
+    deps:
+    - path: src/data/tokenize_dataset.py
+      hash: md5
+      md5: d55b2d14847151b87f4944cc54d1e12a
+      size: 2098
+    outs:
+    - path: tokenized
+      hash: md5
+      md5: 7c11debd3663ff812e400b70b9ade2dd.dir
+      size: 1004730838
+      nfiles: 7

@@ -6,8 +6,8 @@ from keras.models import Sequential
 from keras.layers import Embedding, Conv1D, MaxPooling1D, Flatten, Dense, Dropout
 
 
-INPUT_DIR = "/workspaces/remla-ML-group3/tokenized/"
-OUPUT_DIR = "/workspaces/remla-ML-group3/trained/"
+INPUT_DIR = "tokenized/"
+OUPUT_DIR = "trained/"
 
 def create_model(params):
     """ Create the model to be used for training

@@ -6,8 +6,8 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 from sklearn.preprocessing import LabelEncoder
 
 
-INPUT_DIR = "/workspaces/remla-ML-group3/data/external/"
-OUPUT_DIR = "/workspaces/remla-ML-group3/tokenized/"
+INPUT_DIR = "data/external/"
+OUPUT_DIR = "tokenized/"
 
 def pickel_save(obj, path):
     """ Save the object to the given path """ 
