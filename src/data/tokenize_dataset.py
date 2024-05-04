@@ -1,13 +1,14 @@
 import os
 import pickle
+import dvc.api
 
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from sklearn.preprocessing import LabelEncoder
 
-
-INPUT_DIR = "/workspaces/remla-ML-group3/data/external/"
-OUPUT_DIR = "/workspaces/remla-ML-group3/tokenized/"
+PARAMS = dvc.api.params_show()
+INPUT_DIR = PARAMS["data_folder"]
+OUPUT_DIR = PARAMS["tokenized_folder"]
 
 def pickel_save(obj, path):
     """ Save the object to the given path """ 

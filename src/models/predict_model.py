@@ -2,21 +2,21 @@ import os
 import pickle
 import json
 import keras
+import dvc.api
 import numpy as np
 
 from sklearn.metrics import classification_report, confusion_matrix,accuracy_score
 
-
-OUPUT_DIR = "/workspaces/remla-ML-group3/predicted/"
+PARAMS = dvc.api.params_show()
 
 if __name__ == "__main__":
 
-    model = keras.models.load_model("/workspaces/remla-ML-group3/trained/model.keras")
+    model = keras.models.load_model(PARAMS["trained_folder"] + "model.keras")
 
-    with open("/workspaces/remla-ML-group3/tokenized/x_test.pickle", "rb") as f:
+    with open(PARAMS["tokenized_folder"] + "x_test.pickle", "rb") as f:
         x_test = pickle.load(f)
 
-    with open("/workspaces/remla-ML-group3/tokenized/y_test.pickle", "rb") as f:
+    with open(PARAMS["tokenized_folder"]+ "y_test.pickle", "rb") as f:
         y_test = pickle.load(f)
 
 
@@ -41,11 +41,11 @@ if __name__ == "__main__":
     print('Accuracy Score:')
     print(accuracy)
 
-    if not os.path.exists(OUPUT_DIR):
-        os.makedirs(OUPUT_DIR)
+    if not os.path.exists(PARAMS["predicted_folder"]):
+        os.makedirs(PARAMS["predicted_folder"])
 
     # Save the metrics in a JSON file
-    metrics_file = os.path.join(OUPUT_DIR, "metrics.json")
+    metrics_file = os.path.join(PARAMS["predicted_folder"], "metrics.json")
     with open(metrics_file, "w") as f:
         metrics = {
             "accuracy_score": accuracy

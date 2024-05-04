@@ -1,31 +1,50 @@
 stages:
 
-  tokenize:
+  download_data:
+    cmd: python src/data/download_dataset.py
+    deps:
+    - src/data/download_dataset.py
+    outs:
+    - data/external
+    params:
+    - data_folder_id
+    - data_folder
+
+  tokenize_data:
     cmd: python src/data/tokenize_dataset.py
     deps:
     - src/data/tokenize_dataset.py
     outs:
-    - tokenized
+    - artifacts/tokenized
+    params:
+    - tokenized_folder
+    - data_folder
 
   train_model:
     cmd: python src/models/train_model.py
     deps:
     - src/models/train_model.py
     outs:
-    - trained
+    - artifacts/trained
     params:
     - epochs
     - batch_size
     - categories
     - loss_function
     - optimizer
+    - tokenized_folder
+    - trained_folder
 
   predict_model:
     cmd: python src/models/predict_model.py
     deps:
     - src/models/predict_model.py
     outs:
-    - predicted
+    - artifacts/predicted
+    params:
+    - predicted_folder
+    - trained_folder
+    - tokenized_folder
 
 metrics:
   - predicted/metrics.json
