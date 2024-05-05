@@ -4,3 +4,4 @@ poetry.lock
 /predicted
 /data
 /artifacts
+/.idea

@@ -1,0 +1,25 @@
+name: Pylint
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.9'
+    - name: Install poetry
+      run: |
+        curl -sSL https://install.python-poetry.org | python -
+    - name: Configure Poetry
+      run: |
+        poetry config virtualenvs.create false  # Avoid creating a virtualenv in the CI environment
+    - name: Install dependencies
+      run: |
+        poetry install 
+    - name: Analysing the code with pylint
+      run: |
+        pylint $(git ls-files '*.py')
