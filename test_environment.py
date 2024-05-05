@@ -1,3 +1,4 @@
+# pylint: disable=all
 import sys
 
 REQUIRED_PYTHON = "python3"
