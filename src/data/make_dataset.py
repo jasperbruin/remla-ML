@@ -1,3 +1,9 @@
+# pylint: disable=W0012,E0401,E0613,W0613,E1120,C0411
+
+
+"""This file is used to generate the final dataset from the raw data.
+It is not used in this project."""
+
 # -*- coding: utf-8 -*-
 import click
 import logging
@@ -17,8 +23,8 @@ def main(input_filepath, output_filepath):
 
 
 if __name__ == '__main__':
-    log_fmt = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    logging.basicConfig(level=logging.INFO, format=log_fmt)
+    LOG_FMT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    logging.basicConfig(level=logging.INFO, format=LOG_FMT)
 
     # not used in this stub but often useful for finding various files
     project_dir = Path(__file__).resolve().parents[2]

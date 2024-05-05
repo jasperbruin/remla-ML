@@ -1,3 +1,5 @@
+# pylint: disable=all
+
 # -*- coding: utf-8 -*-
 #
 # remla-group3 documentation build configuration file, created by

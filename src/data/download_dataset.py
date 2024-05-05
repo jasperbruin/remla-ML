@@ -1,3 +1,9 @@
+# pylint: disable=E0401
+
+"""
+Download the dataset from Google Drive using gdown
+"""
+
 import gdown
 import dvc.api
 

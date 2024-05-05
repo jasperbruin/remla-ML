@@ -1,3 +1,9 @@
+"""
+This script loads the trained model and the test data, makes predictions on
+the test data, and calculates the accuracy score, classification report,
+and confusion matrix. The metrics are saved in a JSON file.
+"""
+
 import os
 import pickle
 import json
