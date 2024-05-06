@@ -119,6 +119,12 @@ Here are the key DVC commands you will use frequently while working with our pro
   ```
   After you make changes or updates to data or model files locally, use this command to upload them to the remote storage, keeping it synchronized with your latest developments.
 
+- **Show metrics**:
+  ```bash
+  dvc metrics show
+  ```
+  This command will show the results of dvc repro that are collected in `artifacts/predicted/metrics.json`.
+
 ### Keeping Everything Synchronized
 
 To ensure consistency across all team members' environments:
