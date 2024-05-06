@@ -97,10 +97,10 @@ poetry shell
 The decision process on how the project is designed is documented here.
 
 ### Cookiecutter
-For the project templating, Cookiecutter is used. It standardizes the project setup process with predefined directory structures and configuration files. 
+For the project templating, [Cookiecutter](https://github.com/cookiecutter/cookiecutter) is used. It standardizes the project setup process with predefined directory structures and configuration files. 
 
 ### Poetry
-Poetry is used as a dependency management tool instead of using requirements.txt. This simplifies the depenency management by making sure collaborators use the same versions of dependencies across different environments. Additionally, it automates virtual environments.
+[Poetry](https://python-poetry.org/) is used as a dependency management tool instead of requirements.txt. This simplifies the depenency management by making sure collaborators use the same versions of dependencies across different environments. Additionally, it automates virtual environments.
 
 ### Pylint and Flake8
-To analyze code for errors, bugs and style inconsistencies, the linters Pylint and Flake8 are used. Pylint ensures overall code correctness and maintainability, while Flake8 has strengths in style consistency and code readability.
+To analyze code for errors, bugs and style inconsistencies, the linters [Pylint](https://pypi.org/project/pylint/) and [Flake8](https://flake8.pycqa.org/) are used. Pylint ensures overall code correctness and maintainability, while Flake8 has strengths in style consistency and code readability.
