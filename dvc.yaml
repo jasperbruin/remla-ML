@@ -47,4 +47,4 @@ stages:
     - tokenized_folder
 
 metrics:
-  - predicted/metrics.json
+  - artifacts/predicted/metrics.json

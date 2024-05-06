@@ -18,8 +18,8 @@ stages:
     deps:
     - path: src/models/train_model.py
       hash: md5
-      md5: e5ed3c264f73f827d1f78451c81502dc
-      size: 2463
+      md5: 9603ccb30ebf75de09ecb40cb6a89603
+      size: 2501
     params:
       params.yaml:
         batch_size: 64
@@ -34,16 +34,16 @@ stages:
     outs:
     - path: artifacts/trained
       hash: md5
-      md5: 0c4d31cad5b7de358dbdeb2a543b85c5.dir
-      size: 5472435
+      md5: 88d667da0707c16a231702ba8daf8181.dir
+      size: 401682
       nfiles: 1
   predict_model:
     cmd: python src/models/predict_model.py
     deps:
     - path: src/models/predict_model.py
       hash: md5
-      md5: 91793305702b74adcb7715e97d31cf3b
-      size: 1547
+      md5: 668415b450d3af6c4dddd53de0411a8b
+      size: 2450
     params:
       params.yaml:
         predicted_folder: artifacts/predicted/
@@ -52,16 +52,16 @@ stages:
     outs:
     - path: artifacts/predicted
       hash: md5
-      md5: ae456784b012bb5f2b5d43e2654d9b55.dir
-      size: 38
+      md5: 4ddf60b22c70bf6b4d90d9f3fed0d6a6.dir
+      size: 667
       nfiles: 1
   download_data:
     cmd: python src/data/download_dataset.py
     deps:
     - path: src/data/download_dataset.py
       hash: md5
-      md5: 765d324fbf5951c4381c0dac3d4a9cad
-      size: 182
+      md5: 1adbf71098f0b5323145638a3147f909
+      size: 294
     params:
       params.yaml:
         data_folder: data/external/
@@ -77,8 +77,8 @@ stages:
     deps:
     - path: src/data/tokenize_dataset.py
       hash: md5
-      md5: a2b3655cc7b8af45c7eb32d0e05c8845
-      size: 2162
+      md5: 3bac9c69382865a498b0cf3d547126c6
+      size: 2461
     params:
       params.yaml:
         data_folder: data/external/

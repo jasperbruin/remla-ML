@@ -13,6 +13,7 @@ import numpy as np
 
 from sklearn.metrics import (classification_report, confusion_matrix,
                              accuracy_score)
+from sklearn.metrics import precision_recall_fscore_support
 
 PARAMS = dvc.api.params_show()
 
@@ -33,6 +34,11 @@ if __name__ == "__main__":
     y_pred = model.predict(x_test, batch_size=1000)
     y_pred_binary = (np.array(y_pred) > 0.5).astype(int)
     y_test = y_test.reshape(-1, 1)
+
+    # Calculate precision, recall, f1-score, and support
+    precision, recall, f1_score, _ = (
+        precision_recall_fscore_support(y_test, y_pred_binary,
+                                        average='binary'))
 
     # Generate and print classification report
     report = classification_report(y_test, y_pred_binary)
@@ -60,7 +66,10 @@ if __name__ == "__main__":
         metrics = {
             "classification_report": report,
             "confusion_matrix": matrix.tolist(),  # convert numpy array to list
-            "accuracy_score": accuracy
+            "accuracy_score": accuracy,
+            "precision": precision,
+            "recall": recall,
+            "f1_score": f1_score
         }
         json.dump(metrics, f, indent=4)  # pretty print json
 
