@@ -97,6 +97,37 @@ Poetry provides a virtual environment shell where you can execute commands withi
 poetry shell
 ```
 
+## Essential DVC Commands
+
+Here are the key DVC commands you will use frequently while working with our project:
+
+- **Pull Data/Models from Remote Storage**:
+  ```bash
+  dvc pull
+  ```
+  This command downloads the latest versions of data, models, and dependencies from the remote storage to your local environment.
+
+- **Reproduce Experiments**:
+  ```bash
+  dvc repro
+  ```
+  Use this command to rerun pipeline stages defined in `dvc.yaml` if their dependencies have changed. This ensures that your project components are up-to-date and that the results are consistent.
+
+- **Push Data/Models to Remote Storage**:
+  ```bash
+  dvc push
+  ```
+  After you make changes or updates to data or model files locally, use this command to upload them to the remote storage, keeping it synchronized with your latest developments.
+
+### Keeping Everything Synchronized
+
+To ensure consistency across all team members' environments:
+
+- Run `dvc pull` to update your local files with the latest versions from the remote storage when you start working or after cloning the repository.
+- After significant changes, always use `dvc push` to sync your updates back to the remote storage.
+
+Following these practices will help maintain a smooth and efficient workflow for everyone involved in the project.
+
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
 
 
