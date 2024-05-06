@@ -1,7 +1,3 @@
-poetry.lock
-/tokenized
-/trained
-/predicted
 /data
 /artifacts
 /.idea
