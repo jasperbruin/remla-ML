@@ -13,26 +13,27 @@ import numpy as np
 
 from sklearn.metrics import (classification_report, confusion_matrix,
                              accuracy_score)
+from sklearn.metrics import precision_recall_fscore_support
 
 PARAMS = dvc.api.params_show()
 
 if __name__ == "__main__":
     # Load the trained model
-    model = keras.models.load_model(os.path.join(PARAMS["trained_folder"],
-                                                 "model.keras"))
+    model = keras.models.load_model(os.path.join(PARAMS["trained_folder"], "model.keras"))
 
     # Load test datasets
-    with open(os.path.join(PARAMS["tokenized_folder"], "x_test.pickle"),
-              "rb") as f:
+    with open(os.path.join(PARAMS["tokenized_folder"], "x_test.pickle"), "rb") as f:
         x_test = pickle.load(f)
-    with open(os.path.join(PARAMS["tokenized_folder"], "y_test.pickle"),
-              "rb") as f:
+    with open(os.path.join(PARAMS["tokenized_folder"], "y_test.pickle"), "rb") as f:
         y_test = pickle.load(f)
 
     # Make predictions
     y_pred = model.predict(x_test, batch_size=1000)
     y_pred_binary = (np.array(y_pred) > 0.5).astype(int)
     y_test = y_test.reshape(-1, 1)
+
+    # Calculate precision, recall, f1-score, and support
+    precision, recall, f1_score, _ = precision_recall_fscore_support(y_test, y_pred_binary, average='binary')
 
     # Generate and print classification report
     report = classification_report(y_test, y_pred_binary)
@@ -60,7 +61,10 @@ if __name__ == "__main__":
         metrics = {
             "classification_report": report,
             "confusion_matrix": matrix.tolist(),  # convert numpy array to list
-            "accuracy_score": accuracy
+            "accuracy_score": accuracy,
+            "precision": precision,
+            "recall": recall,
+            "f1_score": f1_score
         }
         json.dump(metrics, f, indent=4)  # pretty print json
 
