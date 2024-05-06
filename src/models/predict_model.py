@@ -19,12 +19,15 @@ PARAMS = dvc.api.params_show()
 
 if __name__ == "__main__":
     # Load the trained model
-    model = keras.models.load_model(os.path.join(PARAMS["trained_folder"], "model.keras"))
+    model = keras.models.load_model(os.path.join(PARAMS["trained_folder"],
+                                                 "model.keras"))
 
     # Load test datasets
-    with open(os.path.join(PARAMS["tokenized_folder"], "x_test.pickle"), "rb") as f:
+    with open(os.path.join(PARAMS["tokenized_folder"], "x_test.pickle"),
+              "rb") as f:
         x_test = pickle.load(f)
-    with open(os.path.join(PARAMS["tokenized_folder"], "y_test.pickle"), "rb") as f:
+    with open(os.path.join(PARAMS["tokenized_folder"], "y_test.pickle"),
+              "rb") as f:
         y_test = pickle.load(f)
 
     # Make predictions
@@ -33,7 +36,9 @@ if __name__ == "__main__":
     y_test = y_test.reshape(-1, 1)
 
     # Calculate precision, recall, f1-score, and support
-    precision, recall, f1_score, _ = precision_recall_fscore_support(y_test, y_pred_binary, average='binary')
+    precision, recall, f1_score, _ = (
+        precision_recall_fscore_support(y_test, y_pred_binary,
+                                        average='binary'))
 
     # Generate and print classification report
     report = classification_report(y_test, y_pred_binary)
