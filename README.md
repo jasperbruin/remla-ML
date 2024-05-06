@@ -91,3 +91,16 @@ poetry shell
 ```
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
+
+
+## Decision documentation
+The decision process on how the project is designed is documented here.
+
+### Cookiecutter
+For the project templating, Cookiecutter is used. It standardizes the project setup process with predefined directory structures and configuration files. 
+
+### Poetry
+Poetry is used as a dependency management tool instead of using requirements.txt. This simplifies the depenency management by making sure collaborators use the same versions of dependencies across different environments. Additionally, it automates virtual environments.
+
+### Pylint and Flake8
+To analyze code for errors, bugs and style inconsistencies, the linters Pylint and Flake8 are used. Pylint ensures overall code correctness and maintainability, while Flake8 has strengths in style consistency and code readability.
