@@ -15,15 +15,18 @@ PARAMS = dvc.api.params_show()
 INPUT_DIR = PARAMS["data_folder"]
 OUTPUT_DIR = PARAMS["tokenized_folder"]
 
+
 def pickle_save(obj, path):
     """Save the object to the given path using pickle."""
     with open(path, "wb") as f:
         pickle.dump(obj, f)
 
+
 def read_data(file_path):
     """Read data from file using 'with' to handle resources."""
     with open(file_path, "r", encoding="utf-8") as file:
         return [line.strip() for line in file.readlines()]
+
 
 if __name__ == "__main__":
     train = read_data(INPUT_DIR + "test.txt")[1:]
@@ -42,9 +45,12 @@ if __name__ == "__main__":
     tokenizer.fit_on_texts(raw_x_train + raw_x_val + raw_x_test)
     char_index = tokenizer.word_index
     SEQUENCE_LENGTH = 200
-    x_train = pad_sequences(tokenizer.texts_to_sequences(raw_x_train), maxlen=SEQUENCE_LENGTH)
-    x_val = pad_sequences(tokenizer.texts_to_sequences(raw_x_val), maxlen=SEQUENCE_LENGTH)
-    x_test = pad_sequences(tokenizer.texts_to_sequences(raw_x_test), maxlen=SEQUENCE_LENGTH)
+    x_train = pad_sequences(tokenizer.texts_to_sequences(raw_x_train),
+                            maxlen=SEQUENCE_LENGTH)
+    x_val = pad_sequences(tokenizer.texts_to_sequences(raw_x_val),
+                          maxlen=SEQUENCE_LENGTH)
+    x_test = pad_sequences(tokenizer.texts_to_sequences(raw_x_test),
+                           maxlen=SEQUENCE_LENGTH)
 
     if not os.path.exists(OUTPUT_DIR):
         os.makedirs(OUTPUT_DIR)

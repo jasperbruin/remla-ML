@@ -19,6 +19,9 @@ dvc = "^3.50.1"
 dvc-gdrive = "^3.0.1"
 gdown = "^5.1.0"
 
+[tool.poetry.dev-dependencies]
+flake8 = "^5.0.4"
+
 
 [build-system]
 requires = ["poetry-core"]

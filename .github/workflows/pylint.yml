@@ -1,4 +1,4 @@
-name: Pylint
+name: Python Code Quality and Linting
 
 on: [push]
 
@@ -16,10 +16,13 @@ jobs:
         curl -sSL https://install.python-poetry.org | python -
     - name: Configure Poetry
       run: |
-        poetry config virtualenvs.create false  # Avoid creating a virtualenv in the CI environment
+        poetry config virtualenvs.create false
     - name: Install dependencies
       run: |
-        poetry install 
+        poetry install
     - name: Analysing the code with pylint
       run: |
         pylint $(git ls-files '*.py')
+    - name: Analysing the code with Flake8
+      run: |
+        flake8 .

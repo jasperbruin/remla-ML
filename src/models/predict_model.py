@@ -11,7 +11,8 @@ import keras
 import dvc.api
 import numpy as np
 
-from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
+from sklearn.metrics import (classification_report, confusion_matrix,
+                             accuracy_score)
 
 PARAMS = dvc.api.params_show()
 
@@ -21,9 +22,11 @@ if __name__ == "__main__":
                                                  "model.keras"))
 
     # Load test datasets
-    with open(os.path.join(PARAMS["tokenized_folder"], "x_test.pickle"), "rb") as f:
+    with open(os.path.join(PARAMS["tokenized_folder"], "x_test.pickle"),
+              "rb") as f:
         x_test = pickle.load(f)
-    with open(os.path.join(PARAMS["tokenized_folder"], "y_test.pickle"), "rb") as f:
+    with open(os.path.join(PARAMS["tokenized_folder"], "y_test.pickle"),
+              "rb") as f:
         y_test = pickle.load(f)
 
     # Make predictions
