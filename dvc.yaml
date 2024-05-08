@@ -11,9 +11,9 @@ stages:
     - data_folder
 
   tokenize_data:
-    cmd: python src/data/tokenize_dataset.py
+    cmd: poetry run python -m lib_ml.preprocessing
     deps:
-    - src/data/tokenize_dataset.py
+    - pyproject.toml
     outs:
     - artifacts/tokenized
     params:
