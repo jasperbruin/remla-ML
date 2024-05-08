@@ -9,7 +9,7 @@ package-mode = false
 [tool.poetry.dependencies]
 python = ">=3.9,<3.13"
 scikit-learn = "^1.4.2"
-tensorflow = {version = ">2.16", extras = ["and-cuda"]}
+tensorflow = {version = ">2.16"}
 matplotlib = "^3.8.4"
 keras = "^3.3.3"
 jupyter = "^1.0.0"
@@ -18,6 +18,8 @@ pylint = "3.1.0"
 dvc = "^3.50.1"
 dvc-gdrive = "^3.0.1"
 gdown = "^5.1.0"
+lib-ml = { git = "https://github.com/remla24-team3/lib-ml.git", tag = "v0.1.0" }
+
 
 [tool.poetry.dev-dependencies]
 flake8 = "^5.0.4"
