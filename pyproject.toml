@@ -9,7 +9,7 @@ package-mode = false
 [tool.poetry.dependencies]
 python = ">=3.9,<3.13"
 scikit-learn = "^1.4.2"
-tensorflow = {version = ">2.16", extras = ["and-cuda"]}
+tensorflow = {version = ">2.16"}
 matplotlib = "^3.8.4"
 keras = "^3.3.3"
 jupyter = "^1.0.0"
