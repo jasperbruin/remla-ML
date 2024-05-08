@@ -1,4 +1,4 @@
-# src/data/use_preprocessing.py
+# model-training/src/data/use_preprocessing.py
 from lib_ml.preprocessing import preprocess_data
 
 def main():

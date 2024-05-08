@@ -11,7 +11,7 @@ stages:
     - data_folder
 
   tokenize_data:
-    cmd: poetry run python -m lib_ml.preprocessing
+    cmd: python src/data/use_preprocessing.py
     deps:
     - pyproject.toml
     outs:
