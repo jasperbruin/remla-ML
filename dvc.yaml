@@ -11,14 +11,15 @@ stages:
     - data_folder
 
   tokenize_data:
-    cmd: python src/data/use_preprocessing.py
+    cmd: python -c "from lib_ml.preprocessing import preprocess_data; preprocess_data()"
     deps:
-    - pyproject.toml
+      - pyproject.toml
     outs:
-    - artifacts/tokenized
+      - artifacts/tokenized
     params:
-    - tokenized_folder
-    - data_folder
+      - tokenized_folder
+      - data_folder
+
 
   train_model:
     cmd: python src/models/train_model.py

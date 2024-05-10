@@ -42,8 +42,8 @@ stages:
     deps:
     - path: src/models/predict_model.py
       hash: md5
-      md5: 668415b450d3af6c4dddd53de0411a8b
-      size: 2450
+      md5: 062f2cab61f46345507621571b90b0ae
+      size: 2578
     params:
       params.yaml:
         predicted_folder: artifacts/predicted/
@@ -73,12 +73,12 @@ stages:
       size: 172904892
       nfiles: 3
   tokenize_data:
-    cmd: python src/data/tokenize_dataset.py
+    cmd: python -c "from lib_ml.preprocessing import preprocess_data; preprocess_data()"
     deps:
-    - path: src/data/tokenize_dataset.py
+    - path: pyproject.toml
       hash: md5
-      md5: 3bac9c69382865a498b0cf3d547126c6
-      size: 2461
+      md5: cd806cecb6da0780ce238d3372571628
+      size: 594
     params:
       params.yaml:
         data_folder: data/external/
