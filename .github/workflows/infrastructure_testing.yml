@@ -1,4 +1,4 @@
-name: Python application
+name: ML Model Tests - Infrastructure Testing
 
 on:
   push:

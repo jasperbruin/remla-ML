@@ -125,6 +125,13 @@ Here are the key DVC commands you will use frequently while working with our pro
   ```
   This command will show the results of dvc repro that are collected in `artifacts/predicted/metrics.json`.
 
+# Testing
+To ensure that the project is working as expected, you can run the following command:
+
+```bash
+ poetry run pytest tests/
+```
+
 ### Keeping Everything Synchronized
 
 To ensure consistency across all team members' environments:
