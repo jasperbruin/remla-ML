@@ -6,7 +6,8 @@ import pytest
 import tensorflow as tf
 import psutil
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Dense, Input
+
 
 # Setting a random seed for reproducibility
 np.random.seed(42)
@@ -95,7 +96,8 @@ def test_non_determinism():
 def test_robustness_to_noise():
     """Test model robustness to noisy input."""
     model = Sequential()
-    model.add(Dense(2, input_dim=2))
+    model.add(Input(shape=(2,)))
+    model.add(Dense(2))
     model.compile(loss='mean_squared_error',
                   optimizer='adam')
     model.fit(np.random.random((1000, 2)),
@@ -108,5 +110,6 @@ def test_robustness_to_noise():
                    np.random.normal(0, 0.1, (100, 2)))
     noisy_score = model.evaluate(noisy_input, np.random.random((100, 2)))
 
-    assert (abs(original_score - noisy_score) <
-            0.05), "Model is not robust to noise"
+    relative_change = abs(original_score - noisy_score) / original_score
+
+    assert relative_change < 0.2, "Model is not robust to noise"
