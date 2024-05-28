@@ -8,6 +8,10 @@ import psutil
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 
+# Setting a random seed for reproducibility
+np.random.seed(42)
+tf.random.set_seed(42)
+
 
 @pytest.mark.skipif(not tf.config.list_physical_devices('GPU'),
                     reason="GPU is not available")
