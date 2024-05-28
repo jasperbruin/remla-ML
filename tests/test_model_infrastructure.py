@@ -1,4 +1,5 @@
-# pylint: disable=E0401, E0611, E1101, C0114
+# pylint: disable=all
+# flake8: noqa
 
 import os
 import numpy as np
