@@ -150,8 +150,10 @@ def test_feature_code(data):
         data (dict): Fixture data containing texts.
     """
     cleaned_urls = [url.lower() for url in data["texts"]]
-    assert all(url.startswith(("http://", "https://")) for url in cleaned_urls), (
-        "URL cleaning should ensure all URLs start with 'http://' or 'https://'."
+    assert all(url.startswith(("http://", "https://")) for url
+               in cleaned_urls), (
+        "URL cleaning should ensure all URLs start "
+        "with 'http://' or 'https://'."
     )
 
     texts = data["texts"]
