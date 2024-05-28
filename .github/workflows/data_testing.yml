@@ -23,7 +23,7 @@ jobs:
     - name: Download dataset
       run: |
         pip install gdown dvc
-        python download_data.py
+        dvc pull
 
     - name: Run tests
       run: |
