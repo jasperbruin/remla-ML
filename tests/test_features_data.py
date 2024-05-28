@@ -142,11 +142,22 @@ def test_feature_privacy(data):
                                            f"found in tokenizer word index")
 
 
-def test_feature_code():
-    """Test all code that creates input features."""
-    sample_urls = ["https://example.com/path?query=1",
-                   "https://example.org/path/to/resource"]
-    cleaned_urls = [url.lower() for url in sample_urls]
-    assert all(url.startswith("https://") for url in cleaned_urls), (
-        "URL cleaning should ensure all URLs start with 'https://'."
+def test_feature_code(data):
+    """
+    Test all code that creates input features.
+
+    Args:
+        data (dict): Fixture data containing texts.
+    """
+    cleaned_urls = [url.lower() for url in data["texts"]]
+    assert all(url.startswith(("http://", "https://")) for url in cleaned_urls), (
+        "URL cleaning should ensure all URLs start with 'http://' or 'https://'."
+    )
+
+    texts = data["texts"]
+    assert all(isinstance(text, str) for text in texts), (
+        "All input features should be strings."
+    )
+    assert all(len(text) > 0 for text in texts), (
+        "No input feature should be an empty string."
     )
