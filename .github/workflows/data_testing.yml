@@ -20,11 +20,14 @@ jobs:
         pip install poetry
         poetry install
 
+    - name: Install additional dependencies for DVC
+      run: |
+        pip install dvc-gdrive
+
     - name: Download dataset
       run: |
-        pip install gdown dvc
         dvc pull
 
     - name: Run tests
       run: |
-        poetry run pytest tests/test_features_data.py
+        poetry run pytest tests/
