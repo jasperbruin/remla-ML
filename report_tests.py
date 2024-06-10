@@ -25,22 +25,15 @@ except json.JSONDecodeError as e:
 print(json.dumps(report, indent=4))
 
 # Ensure the report has the expected structure
-if 'tests' not in report:
-    print("The report does not contain 'tests' key.")
+if 'summary' not in report or 'passed' not in report['summary']:
+    print("The report does not contain 'summary' or 'passed' key.")
     exit(1)
 
-# Extract necessary information
-test_outputs = [test.get('captured_output', '') for test in report['tests']]
-
-# For demonstration, we can just concatenate all outputs
-badge_text = ' | '.join(test_outputs)[:30]  # Limit the length of badge text
-
-# Ensure the badge text is not empty
-if not badge_text:
-    badge_text = 'No output'
+# Extract the number of tests passed
+num_tests_passed = report['summary']['passed']
 
 # Generate the badge
-badge = anybadge.Badge('tests', badge_text)
+badge = anybadge.Badge('tests passed', str(num_tests_passed))
 
 # Write the badge to a file
 badge_output_file = 'badge.svg'

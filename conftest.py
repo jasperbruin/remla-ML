@@ -1,7 +1,10 @@
-import pytest
+import os  # standard import first
+import sys  # standard import first
 import json
 import io
-import sys
+
+import anybadge  # third-party import after standard imports
+import pytest
 
 class CaptureStdout:
     def __init__(self):
@@ -33,11 +36,11 @@ def pytest_runtest_makereport(item, call):
 
 @pytest.hookimpl(tryfirst=True)
 def pytest_sessionfinish(session, exitstatus):
-    json_report_file = session.config.option.json_report_file
-    if not json_report_file:
+    JSON_REPORT_FILE = session.config.option.json_report_file
+    if not JSON_REPORT_FILE:
         return
 
-    with open(json_report_file, 'r', encoding='utf-8') as f:
+    with open(JSON_REPORT_FILE, 'r', encoding='utf-8') as f:
         report_data = json.load(f)
 
     for entry in report_data.get('tests', []):
@@ -52,7 +55,7 @@ def pytest_sessionfinish(session, exitstatus):
                     break
             entry['captured_output'] = captured_output
 
-    with open(json_report_file, 'w', encoding='utf-8') as f:
+    with open(JSON_REPORT_FILE, 'w', encoding='utf-8') as f:
         json.dump(report_data, f, indent=4)
 
 @pytest.hookimpl(tryfirst=True)
@@ -60,3 +63,16 @@ def pytest_configure(config):
     if not hasattr(config, '_custom_json_report'):
         config._custom_json_report = {}
 
+def main():
+    REPORT_FILE = 'report.txt'
+    BADGE_TEXT = 'badge'
+    BADGE_OUTPUT_FILE = 'badge.svg'
+    
+    try:
+        # some code that might fail
+        pass
+    except Exception as e:  # consider using a more specific exception
+        sys.exit(f"Error: {e}")
+
+if __name__ == "__main__":
+    main()
