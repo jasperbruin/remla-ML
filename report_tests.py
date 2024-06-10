@@ -15,5 +15,9 @@ passed_tests = report['summary']['passed']
 failed_tests = report['summary']['failed']
 
 # Generate the test summary
-badge = anybadge.Badge('tests', f'Passed: {passed_tests}, Failed: {failed_tests}', thresholds={})
+badge = anybadge.Badge(
+    'tests',
+    f'Passed: {passed_tests}, Failed: {failed_tests}',
+    thresholds={}
+    )
 badge.write_badge('badge.svg')

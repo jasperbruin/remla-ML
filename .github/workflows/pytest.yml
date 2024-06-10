@@ -36,7 +36,7 @@ jobs:
 
     - name: Generate badge
       run: |
-        poetry run python scripts/generate_badge.py
+        poetry run python report_tests.py
 
     - name: Upload badge
       uses: actions/upload-artifact@v2
