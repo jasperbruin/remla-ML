@@ -13,14 +13,11 @@ with open('report.json', 'r', encoding='utf-8') as f:
 print(json.dumps(report, indent=4))
 
 # Extract necessary information
-total_tests = report['summary']['total']
-passed_tests = report['summary']['passed']
-failed_tests = report['summary']['failed']
+test_outputs = [test['captured_output'] for test in report]
 
-# Generate the test summary
-badge = anybadge.Badge(
-    'tests',
-    f'Passed: {passed_tests}, Failed: {failed_tests}',
-    thresholds={}
-    )
+# For demonstration, we can just concatenate all outputs
+badge_text = ' | '.join(test_outputs)
+
+# Generate the badge
+badge = anybadge.Badge('tests', badge_text[:30])  # Limit the length of badge text
 badge.write_badge('badge.svg')
