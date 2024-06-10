@@ -45,8 +45,12 @@ def pytest_sessionfinish(session, exitstatus):
         report = session.config._custom_json_report.get(nodeid)
         if report:
             # Retrieve the captured output from the corresponding item
-            item = session.items[nodeid]
-            entry['captured_output'] = getattr(item, '_captured_output', '')
+            captured_output = ""
+            for item in session.items:
+                if item.nodeid == nodeid:
+                    captured_output = getattr(item, '_captured_output', '')
+                    break
+            entry['captured_output'] = captured_output
 
     with open(json_report_file, 'w', encoding='utf-8') as f:
         json.dump(report_data, f, indent=4)
