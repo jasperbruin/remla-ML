@@ -34,7 +34,7 @@ stages:
     outs:
     - path: artifacts/trained
       hash: md5
-      md5: 88d667da0707c16a231702ba8daf8181.dir
+      md5: 4d12fc91111e4e9354a1b0df463d11d6.dir
       size: 401682
       nfiles: 1
   predict_model:
@@ -52,8 +52,8 @@ stages:
     outs:
     - path: artifacts/predicted
       hash: md5
-      md5: 4ddf60b22c70bf6b4d90d9f3fed0d6a6.dir
-      size: 667
+      md5: 6d8d8cc3362af4a6a2c80f82a927e8fd.dir
+      size: 666
       nfiles: 1
   download_data:
     cmd: python src/data/download_dataset.py
@@ -69,16 +69,16 @@ stages:
     outs:
     - path: data/external
       hash: md5
-      md5: 48900e618890f4ce97201d1592d45045.dir
-      size: 172904892
-      nfiles: 3
+      md5: d9fe93cf6fe304b439f159da5d9fbf80.dir
+      size: 173309276
+      nfiles: 6
   tokenize_data:
-    cmd: python -c "from lib_ml.preprocessing import preprocess_data; preprocess_data()"
+    cmd: python -c "from lib_ml_group3.preprocessing import preprocess_data; preprocess_data()"
     deps:
     - path: pyproject.toml
       hash: md5
-      md5: cd806cecb6da0780ce238d3372571628
-      size: 594
+      md5: f24f4544e11bfc6ec3e5739b3490a97a
+      size: 672
     params:
       params.yaml:
         data_folder: data/external/
