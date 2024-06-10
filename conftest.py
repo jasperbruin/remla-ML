@@ -1,10 +1,9 @@
-import os  # standard import first
-import sys  # standard import first
 import json
 import io
+import sys
 
-import anybadge  # third-party import after standard imports
 import pytest
+
 
 class CaptureStdout:
     def __init__(self):
@@ -18,6 +17,7 @@ class CaptureStdout:
     def __exit__(self, exc_type, exc_val, exc_tb):
         sys.stdout = self._stdout
 
+
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
 def pytest_runtest_makereport(item, call):
     with CaptureStdout() as capture:
@@ -25,14 +25,16 @@ def pytest_runtest_makereport(item, call):
     rep = outcome.get_result()
     if rep.when == 'call':
         captured_output = capture.buffer.getvalue()
-        item._report_sections.append(('Captured stdout', 'call', captured_output))
+        item._report_sections.append(
+            ('Captured stdout', 'call', captured_output)
+            )
         # Store captured output in a custom attribute on the item object
         setattr(item, '_captured_output', captured_output)
-    
     # Ensure custom _json_report attribute is a dictionary
     if not hasattr(item.config, '_custom_json_report'):
         item.config._custom_json_report = {}
     item.config._custom_json_report[item.nodeid] = rep
+
 
 @pytest.hookimpl(tryfirst=True)
 def pytest_sessionfinish(session, exitstatus):
@@ -58,21 +60,20 @@ def pytest_sessionfinish(session, exitstatus):
     with open(JSON_REPORT_FILE, 'w', encoding='utf-8') as f:
         json.dump(report_data, f, indent=4)
 
+
 @pytest.hookimpl(tryfirst=True)
 def pytest_configure(config):
     if not hasattr(config, '_custom_json_report'):
         config._custom_json_report = {}
 
+
 def main():
-    REPORT_FILE = 'report.txt'
-    BADGE_TEXT = 'badge'
-    BADGE_OUTPUT_FILE = 'badge.svg'
-    
     try:
         # some code that might fail
         pass
     except Exception as e:  # consider using a more specific exception
         sys.exit(f"Error: {e}")
+
 
 if __name__ == "__main__":
     main()

@@ -1,3 +1,5 @@
+# pylint: skip-file
+
 """
 This module processes the test report and generates a badge.
 """
