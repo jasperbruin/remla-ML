@@ -144,6 +144,10 @@ def test_memory_usage(data, model_fixture):
     memory_after = process.memory_info().rss / 1024 ** 2  # Memory usage in MB
     memory_diff = memory_after - memory_before
 
+    print(f"Memory usage before: {memory_before} MB")
+    print(f"Memory usage after: {memory_after} MB")
+    print(f"Memory usage difference: {memory_diff} MB")
+
     assert memory_diff < 1000, f"Memory usage increased significantly: {memory_diff} MB"
 
 
@@ -157,6 +161,8 @@ def test_model_saving_loading(data, model_fixture):
     assert model.get_config() == loaded_model.get_config(), \
         "Loaded model is not the same as the saved model"
 
+    print("Model saved and loaded successfully")
+
     os.remove('model.h5')  # Clean up the saved model
 
 
@@ -164,9 +170,14 @@ def train_model(data):
     """Train the full model and save it."""
     voc_size = len(data["tokenizer"].word_index) + 1
     model = create_model(voc_size, data["max_sequence_length"])
-    model.fit(data["x_train"], data["y_train"], epochs=5,
-              validation_data=(data["x_val"], data["y_val"]), batch_size=32)
+    history = model.fit(data["x_train"], data["y_train"], epochs=5,
+                        validation_data=(data["x_val"], data["y_val"]),
+                        batch_size=32)
     model.save('trained_model.keras')
+
+    print("Training history:")
+    for key, values in history.history.items():
+        print(f"{key}: {values}")
 
 
 def test_integration_pipeline(data):
@@ -174,6 +185,10 @@ def test_integration_pipeline(data):
     train_model(data)
     model_path = 'trained_model.keras'
     assert os.path.exists(model_path), "Trained model was not saved properly"
+
+    print(
+        "Integration pipeline tested successfully, model saved at 'trained_model.keras'")
+
     os.remove(model_path)  # Clean up the saved model
 
 
@@ -190,6 +205,14 @@ def test_non_determinism(data):
 
     weights_1 = model_1.get_weights()
     weights_2 = model_2.get_weights()
+
+    identical_weights = True
+    for w1, w2 in zip(weights_1, weights_2):
+        if np.array_equal(w1, w2):
+            identical_weights = False
+            break
+
+    print("Non-determinism test result:", not identical_weights)
 
     for w1, w2 in zip(weights_1, weights_2):
         assert not np.array_equal(w1, w2), \
@@ -208,5 +231,9 @@ def test_robustness_to_noise(data, model_fixture):
 
     relative_change = abs(original_score[0] - noisy_score[0]) / original_score[
         0]
+
+    print(f"Original validation loss: {original_score[0]}")
+    print(f"Noisy validation loss: {noisy_score[0]}")
+    print(f"Relative change in loss: {relative_change:.2f}")
 
     assert relative_change < 0.2, f"Model is not robust to noise: {relative_change:.2f}"
