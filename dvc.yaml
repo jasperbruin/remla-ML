@@ -11,7 +11,7 @@ stages:
     - data_folder
 
   tokenize_data:
-    cmd: python -c "from lib_ml.preprocessing import preprocess_data; preprocess_data()"
+    cmd: python -c "from lib_ml_group3.preprocessing import preprocess_data; preprocess_data()"
     deps:
       - pyproject.toml
     outs:
