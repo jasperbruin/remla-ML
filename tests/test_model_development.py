@@ -45,7 +45,8 @@ def data():
     test = read_and_sample_data(INPUT_DIR + "test.txt", seed=42)
 
     # Process train data
-    raw_x_train = [remove_sensitive_info(line.split("\t")[1]) for line in train]
+    raw_x_train = [remove_sensitive_info(line.split("\t")[1]) for line in
+                   train]
     raw_y_train = [line.split("\t")[0] for line in train]
 
     # Process validation data
@@ -76,9 +77,9 @@ def evaluate_data_slices(data, model):
 
     results = {}
     for slice_name, texts_slice in \
-        zip(["short", "medium", "long"],
-            [short_texts, medium_texts, long_texts],
-            ):
+            zip(["short", "medium", "long"],
+                [short_texts, medium_texts, long_texts],
+                ):
         y = texts_slice['labels']
         predictions = model.predict(texts_slice['texts'])
         accuracy = accuracy_score(y, predictions)
@@ -91,6 +92,8 @@ def evaluate_data_slices(data, model):
             'recall': recall,
             'f1_score': f1
         }
+        print(
+            f"Slice: {slice_name}, Accuracy: {accuracy}, Precision: {precision}, Recall: {recall}, F1 Score: {f1}")
     return results
 
 
@@ -156,16 +159,18 @@ def retrain_model(seed, data):
     # Load and preprocess the data
     X = data['texts']
     y = data['labels']
-    
+
     # Split the data
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=seed)
-    
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2,
+                                                        random_state=seed)
+
     return model, X_test, y_test
 
 
 def evaluate_model(model, X_test, y_test):
     predictions = model.predict(X_test)
     accuracy = accuracy_score(y_test, predictions)
+    print(f"Model evaluation: Accuracy: {accuracy}")
     return {
         'accuracy': accuracy
     }
@@ -180,7 +185,8 @@ def retrained_model(data, request):
 
 def test_non_determinism_robustness(data, retrained_model):
     metrics = evaluate_model(model, data['texts'], data['labels'])
-    retrained_metrics = evaluate_model(retrained_model[0], retrained_model[1], retrained_model[2])
-    print(f"Metrics: {metrics}")
-    assert abs(retrained_metrics['accuracy'] - metrics['accuracy']) < 0.25 
-
+    retrained_metrics = evaluate_model(retrained_model[0], retrained_model[1],
+                                       retrained_model[2])
+    print(f"Original model metrics: {metrics}")
+    print(f"Retrained model metrics: {retrained_metrics}")
+    assert abs(retrained_metrics['accuracy'] - metrics['accuracy']) < 0.25
