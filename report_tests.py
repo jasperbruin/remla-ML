@@ -9,6 +9,9 @@ import anybadge
 with open('report.json', 'r', encoding='utf-8') as f:
     report = json.load(f)
 
+# Print the structure of the report
+print(json.dumps(report, indent=4))
+
 # Extract necessary information
 total_tests = report['summary']['total']
 passed_tests = report['summary']['passed']
