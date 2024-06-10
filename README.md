@@ -5,8 +5,8 @@ This is for the Release Engineering Course
 
 ## Test Results
 
-![Workflow Update](https://github.com/remla24-group3/model-training/actions/workflows/pytest.yml/badge.svg)
-![Test Results](https://remla24-group3.github.io/model-training/badges/badge.svg)
+![Workflow Update](https://github.com/remla24-team3/model-training/actions/workflows/pytest.yml/badge.svg)
+![Test Results](https://remla24-team3.github.io/model-training/badges/badge.svg)
 
 ## Project Organization
 ------------
