@@ -26,5 +26,21 @@ jobs:
 
     - name: Run tests
       run: |
-        poetry run pytest -s tests/
+        poetry run pytest -s tests/ --json-report --json-report-file=report.json
+
+    - name: Upload test report
+      uses: actions/upload-artifact@v2
+      with:
+        name: test-report
+        path: report.json
+
+    - name: Generate badge
+      run: |
+        poetry run python scripts/generate_badge.py
+
+    - name: Upload badge
+      uses: actions/upload-artifact@v2
+      with:
+        name: test-badge
+        path: badge.svg
 
