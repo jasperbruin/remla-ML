@@ -1,20 +1,29 @@
 import pytest
 import json
+import io
+import sys
 
-# Hook to capture output
+class CaptureStdout:
+    def __init__(self):
+        self._stdout = sys.stdout
+        self.buffer = io.StringIO()
+    
+    def __enter__(self):
+        sys.stdout = self.buffer
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        sys.stdout = self._stdout
+
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
 def pytest_runtest_makereport(item, call):
-    outcome = yield
+    with CaptureStdout() as capture:
+        outcome = yield
     rep = outcome.get_result()
     if rep.when == 'call':
-        capstdout = item.config.pluginmanager.getplugin('capturemanager').read_global_capture()
-        if capstdout is not None:
-            if not hasattr(rep, 'capstdout'):
-                rep.capstdout = capstdout[0]
-            else:
-                rep.capstdout += capstdout[0]
+        rep.capstdout = capture.buffer.getvalue()
+        item._report_sections.append(('Captured stdout', 'call', rep.capstdout))
 
-# Hook to modify the JSON report
 @pytest.hookimpl(tryfirst=True)
 def pytest_sessionfinish(session, exitstatus):
     json_report_file = session.config.option.json_report_file
@@ -26,8 +35,8 @@ def pytest_sessionfinish(session, exitstatus):
 
     for entry in report_data.get('tests', []):
         nodeid = entry['nodeid']
-        if nodeid in session.config._json_report.report:
-            report = session.config._json_report.report[nodeid]
+        report = session.config._json_report.report.get(nodeid)
+        if report:
             entry['captured_output'] = getattr(report, 'capstdout', '')
 
     with open(json_report_file, 'w', encoding='utf-8') as f:
