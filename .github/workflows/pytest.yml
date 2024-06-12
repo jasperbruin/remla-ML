@@ -25,6 +25,26 @@ jobs:
          poetry run python src/data/download_dataset.py
 
     - name: Run tests
+      id: run_tests
       run: |
-        poetry run pytest -s tests/
+        poetry run pytest -s tests/ > test_results.txt
+        cat test_results.txt
 
+    - name: Update README with test results
+      run: |
+        test_summary=$(grep -E "collected|==.*==" test_results.txt)
+        echo "## Test Summary" > test_summary.md
+        echo "\n$test_summary" >> test_summary.md
+        echo "\nFull test results:\n" >> test_summary.md
+        cat test_results.txt >> test_summary.md
+        sed -i '/## Test Summary/,$d' README.md
+        cat test_summary.md >> README.md
+
+    - name: Commit and push changes
+      if: github.event_name == 'push'
+      run: |
+        git config --global user.name 'github-actions'
+        git config --global user.email 'github-actions@github.com'
+        git add README.md
+        git commit -m 'Update README with test results'
+        git push
