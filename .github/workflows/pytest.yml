@@ -26,7 +26,7 @@ jobs:
 
     - name: Run tests
       run: |
-        poetry run pytest --cov=. --cov-report=html
+        poetry run pytest --cov=. --cov-report=html --json-report --json-report-file=report.json
     
     - name: Upload Coverage Report
       uses: actions/upload-artifact@v2
