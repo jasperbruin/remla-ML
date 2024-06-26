@@ -6,9 +6,9 @@ This module contains tests for the features of the data.
 
 import random
 import re
+import logging
 import numpy as np
 import pytest
-import logging
 from sklearn.preprocessing import LabelEncoder
 from tensorflow.keras.preprocessing.text import Tokenizer
 
