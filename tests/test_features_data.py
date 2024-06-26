@@ -19,7 +19,7 @@ SENSITIVE_PATTERNS = re.compile(r"(@|token|session|user|userid|"
                                 r"password|auth|files|pro)", re.IGNORECASE)
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)  # Set the logger to capture all levels of log messages
+logger.setLevel(logging.INFO)
 
 
 def read_and_sample_data(file_path, sample_size=100):
