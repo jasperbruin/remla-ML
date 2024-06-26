@@ -7,6 +7,7 @@ import random
 import re
 import pytest
 import pandas as pd
+import logging
 from lib_ml_group3.load_model import load_model
 from sklearn.model_selection import train_test_split
 
@@ -14,6 +15,9 @@ INPUT_DIR = "data/external/"
 
 SENSITIVE_PATTERNS = re.compile(r"(@|token|session|user|userid|"
                                 r"password|auth|files|pro)", re.IGNORECASE)
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)  # Set the logger to capture all levels of log messages
 
 model = load_model(
     "data/external/model.keras",
@@ -92,12 +96,14 @@ def evaluate_data_slices(data, model):
             'recall': recall,
             'f1_score': f1
         }
+        logger.info(f"Slice: {slice_name}, Accuracy: {accuracy}, Precision: {precision}, Recall: {recall}, F1 Score: {f1}")
         print(
             f"Slice: {slice_name}, Accuracy: {accuracy}, Precision: {precision}, Recall: {recall}, F1 Score: {f1}")
     return results
 
 
 def test_data_slices(data):
+    logger.info("Test data slices")
     results = evaluate_data_slices(data, model)
     short_metrics = results["short"]
     medium_metrics = results["medium"]
@@ -145,6 +151,7 @@ def mutated_data(request):
 
 
 def test_mutamorphic(mutated_data):
+    logger.info("Test mutamorphic")
     results = evaluate_data_slices(mutated_data, model)
     short_metrics = results["short"]
     medium_metrics = results["medium"]
@@ -170,6 +177,7 @@ def retrain_model(seed, data):
 def evaluate_model(model, X_test, y_test):
     predictions = model.predict(X_test)
     accuracy = accuracy_score(y_test, predictions)
+    logger.info(f"Model evaluation: Accuracy: {accuracy}")
     print(f"Model evaluation: Accuracy: {accuracy}")
     return {
         'accuracy': accuracy
@@ -184,9 +192,12 @@ def retrained_model(data, request):
 
 
 def test_non_determinism_robustness(data, retrained_model):
+    logger.info("Test non-determinism")
     metrics = evaluate_model(model, data['texts'], data['labels'])
     retrained_metrics = evaluate_model(retrained_model[0], retrained_model[1],
                                        retrained_model[2])
+    logger.info(f"Original model metrics: {metrics}")
+    logger.info(f"Retrained model metrics: {retrained_metrics}")
     print(f"Original model metrics: {metrics}")
     print(f"Retrained model metrics: {retrained_metrics}")
     assert abs(retrained_metrics['accuracy'] - metrics['accuracy']) < 0.25

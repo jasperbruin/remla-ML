@@ -8,6 +8,7 @@ import random
 import re
 import numpy as np
 import pytest
+import logging
 from sklearn.preprocessing import LabelEncoder
 from tensorflow.keras.preprocessing.text import Tokenizer
 
@@ -16,6 +17,9 @@ OUTPUT_DIR = "data/external/"
 
 SENSITIVE_PATTERNS = re.compile(r"(@|token|session|user|userid|"
                                 r"password|auth|files|pro)", re.IGNORECASE)
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)  # Set the logger to capture all levels of log messages
 
 
 def read_and_sample_data(file_path, sample_size=100):
@@ -86,6 +90,7 @@ def data():
 def test_tokenizer(data):
     """Test the tokenizer."""
     sequences = data["tokenizer"].texts_to_sequences(data["texts"])
+    logger.info("Test the tokenizer")
     assert len(sequences) == len(data["texts"]), (
         "The number of sequences should match the number of input texts."
     )
@@ -97,6 +102,7 @@ def test_tokenizer(data):
 def test_label_encoder(data):
     """Test the label encoder."""
     transformed_labels = data["encoder"].transform(data["labels"])
+    logger.info("Test the label encoder")
     assert len(transformed_labels) == len(data["labels"]), (
         "The number of transformed labels should "
         "match the number of input labels."
@@ -110,6 +116,7 @@ def test_feature_distribution(data):
     """Test that the distributions of each feature match expectations."""
     sequences = data["tokenizer"].texts_to_sequences(data["texts"])
     sequence_lengths = [len(seq) for seq in sequences]
+    logger.info("Test feature distribution")
     assert np.mean(sequence_lengths) > 0, (
         "The mean sequence length should be greater than zero."
     )
@@ -119,6 +126,7 @@ def test_feature_target_relationship(data):
     """Test the relationship between each feature and the target."""
     sequences = data["tokenizer"].texts_to_sequences(data["texts"])
     transformed_labels = data["encoder"].transform(data["labels"])
+    logger.info("Test feature target")
     assert len(sequences) == len(transformed_labels), (
         "The number of sequences should match the number of labels."
     )
@@ -127,6 +135,7 @@ def test_feature_target_relationship(data):
 def test_feature_cost(data):
     """Test the cost of each feature (e.g., latency, memory usage)."""
     feature_size = len(data["tokenizer"].word_index)
+    logger.info("Test feature cost")
     assert feature_size < 10000, (
         "The size of the feature index should be reasonable for memory usage."
     )
@@ -137,6 +146,7 @@ def test_feature_privacy(data):
     word_index = data["tokenizer"].word_index
     sensitive_patterns = ['@', 'token', 'session', 'user', 'userid',
                           'password', 'auth', 'files', 'pro']
+    logger.info("Test feature privacy")
     for pattern in sensitive_patterns:
         assert pattern not in word_index, (f"Sensitive pattern '{pattern}' "
                                            f"found in tokenizer word index")
@@ -150,6 +160,8 @@ def test_feature_code(data):
         data (dict): Fixture data containing texts.
     """
     cleaned_urls = [url.lower() for url in data["texts"]]
+    logger.info("Test feature code")
+
     assert all(url.startswith(("http://", "https://")) for url
                in cleaned_urls), (
         "URL cleaning should ensure all URLs start "
