@@ -6,7 +6,14 @@ This is for the Release Engineering Course
 ## Test Results
 
 ![Workflow Update](https://github.com/remla24-team3/model-training/actions/workflows/pytest.yml/badge.svg)
-![Test Results](https://remla24-team3.github.io/model-training/badges/badge.svg)
+
+### Accessing Artifacts
+1. Go to [GitHub Actions](https://github.com/remla24-team3/model-training/actions) page of our repository.
+2. Click on the last ML Model Tests workflow run.
+3. Scroll down to the **Artifacts** section at the bottom of the workflow run page to find and download the following:
+   - **coverage-report**: Testing adequacy - HTML coverage report.
+   - **ml-metrics**: ML metrics reporting logs.
+   - **test-badge**: Test result badge for the latest run. (also displayed in the README)
 
 ## Project Organization
 ------------

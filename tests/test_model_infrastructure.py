@@ -13,6 +13,7 @@ from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from sklearn.preprocessing import LabelEncoder
 import random
+import logging
 
 # Setting a random seed for reproducibility
 np.random.seed(42)
@@ -20,6 +21,9 @@ tf.random.set_seed(42)
 random.seed(42)
 
 INPUT_DIR = "data/external/"
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)  # Set the logger to capture all levels of log messages
 
 
 def read_and_sample_data(file_path, sample_size=100):
@@ -128,11 +132,13 @@ def model_fixture(data):
                     reason="GPU is not available")
 def test_gpu_available():
     """Test if GPU is available."""
+    logger.info("Test GPU availability")
     assert tf.config.list_physical_devices('GPU'), "GPU is not available"
 
 
 def test_memory_usage(data, model_fixture):
     """Test memory usage before and after model training."""
+    logger.info("Test Memory Usage")
     process = psutil.Process(os.getpid())
     memory_before = process.memory_info().rss / 1024 ** 2
 
@@ -144,6 +150,9 @@ def test_memory_usage(data, model_fixture):
     memory_after = process.memory_info().rss / 1024 ** 2  # Memory usage in MB
     memory_diff = memory_after - memory_before
 
+    logger.info(f"Memory usage before: {memory_before} MB")
+    logger.info(f"Memory usage after: {memory_after} MB")
+    logger.info(f"Memory usage difference: {memory_diff} MB")
     print(f"Memory usage before: {memory_before} MB")
     print(f"Memory usage after: {memory_after} MB")
     print(f"Memory usage difference: {memory_diff} MB")
@@ -153,6 +162,7 @@ def test_memory_usage(data, model_fixture):
 
 def test_model_saving_loading(data, model_fixture):
     """Test saving and loading of the model."""
+    logger.info("Test saving/loading model")
     model = model_fixture
     model.fit(data["x_train"], data["y_train"], epochs=1)
     model.save('model.h5')
@@ -161,6 +171,7 @@ def test_model_saving_loading(data, model_fixture):
     assert model.get_config() == loaded_model.get_config(), \
         "Loaded model is not the same as the saved model"
 
+    logger.info("Model saved and laoded successfully")
     print("Model saved and loaded successfully")
 
     os.remove('model.h5')  # Clean up the saved model
@@ -173,20 +184,26 @@ def train_model(data):
     history = model.fit(data["x_train"], data["y_train"], epochs=5,
                         validation_data=(data["x_val"], data["y_val"]),
                         batch_size=32)
+    logger.info("Train full model")
     model.save('trained_model.keras')
 
+    logger.info("Training history:")
     print("Training history:")
     for key, values in history.history.items():
+        logger.info(f"{key}: {values}")
         print(f"{key}: {values}")
 
 
 def test_integration_pipeline(data):
     """Test the entire training and saving pipeline."""
     train_model(data)
+    logger.info("Test integration pipeline")
     model_path = 'trained_model.keras'
     assert os.path.exists(model_path), "Trained model was not saved properly"
 
     print(
+        "Integration pipeline tested successfully, model saved at 'trained_model.keras'")
+    logger.info(
         "Integration pipeline tested successfully, model saved at 'trained_model.keras'")
 
     os.remove(model_path)  # Clean up the saved model
@@ -194,6 +211,7 @@ def test_integration_pipeline(data):
 
 def test_non_determinism(data):
     """Test model non-determinism by comparing weights of two models."""
+    logger.info("Test non determinism")
     voc_size = len(data["tokenizer"].word_index) + 1
     model_1 = create_model(voc_size, data["max_sequence_length"])
     model_1.fit(np.random.random((100, data["max_sequence_length"])),
@@ -221,6 +239,7 @@ def test_non_determinism(data):
 
 def test_robustness_to_noise(data, model_fixture):
     """Test model robustness to noisy input."""
+    logger.info("Test model robustness")
     model = model_fixture
     model.fit(data["x_train"], data["y_train"], epochs=5)
 
@@ -235,5 +254,8 @@ def test_robustness_to_noise(data, model_fixture):
     print(f"Original validation loss: {original_score[0]}")
     print(f"Noisy validation loss: {noisy_score[0]}")
     print(f"Relative change in loss: {relative_change:.2f}")
+    logger.info(f"Original validation loss: {original_score[0]}")
+    logger.info(f"Noisy validation loss: {noisy_score[0]}")
+    logger.info(f"Relative change in loss: {relative_change:.2f}")
 
     assert relative_change < 0.2, f"Model is not robust to noise: {relative_change:.2f}"
