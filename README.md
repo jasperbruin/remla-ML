@@ -7,70 +7,42 @@ This is for the Release Engineering Course
 
 ![Workflow Update](https://github.com/remla24-team3/model-training/actions/workflows/pytest.yml/badge.svg)
 
-### Accessing Artifacts
+### Accessing ML Tests Artifacts
 1. Go to [GitHub Actions](https://github.com/remla24-team3/model-training/actions) page of our repository.
 2. Click on the last ML Model Tests workflow run.
 3. Scroll down to the **Artifacts** section at the bottom of the workflow run page to find and download the following:
    - **coverage-report**: Testing adequacy - HTML coverage report.
-   - **ml-metrics**: ML metrics reporting logs.
+   - **ml-metrics**: ML metrics and other relevant outputs from the tests are reported in this log.
    - **test-badge**: Test result badge for the latest run. (also displayed in the README)
 
-## Project Organization
-------------
+##  Repository Structure
 
+```sh
+└── model-training/
+    ├── .github
+    │   └── workflows
     ├── LICENSE
-    ├── Makefile               <- Makefile with commands like `make data` or `make train`
-    ├── README.md              <- The top-level README for developers using this project.
-    ├── artifacts              <- Outputs from the machine learning models and data processing.
-    │   ├── predicted          <- Contains prediction outputs such as metrics.json.
-    │   ├── tokenized          <- Stores tokenized datasets for training, validating, and testing.
-    │   └── trained            <- Contains the trained model files like model.keras.
-    ├── data
-    │   ├── external           <- Data from third party sources.
-    │   ├── interim            <- Intermediate data that has been transformed.
-    │   ├── processed          <- The final, canonical data sets for modeling.
-    │   └── raw                <- The original, immutable data dump.
-    ├── docs                   <- A default Sphinx project; see sphinx-doc.org for details
-    │   ├── Makefile
-    │   ├── commands.rst
-    │   ├── conf.py
-    │   ├── getting-started.rst
-    │   ├── index.rst
-    │   └── make.bat
+    ├── README.md
     ├── dvc.lock
     ├── dvc.yaml
-    ├── models                 <- (Empty directory placeholder, expected to hold model scripts)
-    ├── notebooks
-    │   └── phishing-detection-cnn.ipynb <- Jupyter notebook for demonstrating model application.
-    ├── params.yaml            <- Configuration parameters for the project.
+    ├── notebook
+    │   └── phishing-detection-cnn.ipynb
+    ├── params.yaml
     ├── poetry.lock
     ├── pyproject.toml
-    ├── references             <- Data dictionaries, manuals, and all other explanatory materials.
-    ├── reports
-    │   └── figures            <- Generated graphics and figures to be used in reporting.
-    ├── setup.py               <- makes project pip installable (pip install -e .) so src can be imported.
-    ├── src                    <- Source code for use in this project.
-    │   ├── __init__.py        <- Makes src a Python module.
+    ├── pytest.ini
+    ├── report_tests.py
+    ├── src
     │   ├── data
-    │   │   ├── __init__.py
-    │   │   ├── download_dataset.py
-    │   │   ├── make_dataset.py
-    │   │   └── tokenize_dataset.py
-    │   ├── features
-    │   │   ├── __init__.py
-    │   │   └── build_features.py
     │   ├── models
-    │   │   ├── __init__.py
-    │   │   ├── predict_model.py
-    │   │   └── train_model.py
     │   └── visualization
-    │       ├── __init__.py
-    │       └── visualize.py
-    ├── test_environment.py
-    └── tox.ini                <- tox file with settings for running tox; see tox.readthedocs.io
-
-
-
+    ├── tests
+    │   ├── test_features_data.py
+    │   ├── test_model_development.py
+    │   ├── test_model_infrastructure.py
+    │   └── test_monitoring.py
+    └── tox.ini
+```
 --------
 
 ## Using Poetry for Dependency Management
@@ -138,11 +110,13 @@ Here are the key DVC commands you will use frequently while working with our pro
   This command will show the results of dvc repro that are collected in `artifacts/predicted/metrics.json`.
 
 # Testing
-To ensure that the project is working as expected, you can run the following command:
+To run the tests you can run the following command:
 
 ```bash
  poetry run pytest tests/
 ```
+
+This will run **features_data**, **model_development**, **model_infrastructure**, **monitoring** tests, including various tests on data slices, mutamorphic testing and robustness tests.
 
 ### Keeping Everything Synchronized
 
@@ -155,9 +129,7 @@ Following these practices will help maintain a smooth and efficient workflow for
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
 
-
-## Decision documentation
-The decision process on how the project is designed is documented here.
+## Tools Used 
 
 ### Cookiecutter
 For the project templating, [Cookiecutter](https://github.com/cookiecutter/cookiecutter) is used. It standardizes the project setup process with predefined directory structures and configuration files. 
